@@ -2,8 +2,11 @@
 
 export COMPOSE_INTERACTIVE_NO_CLI=1
 
+cp ./env_files/.env.local ./.env
+
 cd ./laradock
 docker-compose down
+cp ./nginx/sites/default_local ./nginx/sites/default.conf
 
 docker-compose up -d postgres redis php-worker workspace meilisearch nginx
 
