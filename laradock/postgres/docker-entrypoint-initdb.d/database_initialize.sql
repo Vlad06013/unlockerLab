@@ -1,4 +1,4 @@
-CREATE USER rework_syncstroy WITH PASSWORD 'jds3Fsa3gt';
-CREATE DATABASE rework_syncstroy;
-GRANT ALL PRIVILEGES ON DATABASE rework_syncstroy TO rework_syncstroy;
-ALTER DATABASE rework_syncstroy OWNER TO rework_syncstroy;
+CREATE USER smm_planer WITH PASSWORD 'eRdHs3gFsa3gt!n';
+CREATE DATABASE smm_planer;
+GRANT ALL PRIVILEGES ON DATABASE smm_planer TO smm_planer;
+ALTER DATABASE smm_planer OWNER TO smm_planer;
