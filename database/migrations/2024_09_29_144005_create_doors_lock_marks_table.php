@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('details', function (Blueprint $table) {
+        Schema::create('doors_lock_marks', function (Blueprint $table) {
             $table->id();
-            $table->mediumText("description");
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('details');
+        Schema::dropIfExists('doors_lock_marks');
     }
 };

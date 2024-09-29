@@ -14,15 +14,12 @@ class CarModel extends Model
     protected $fillable = [
         "name",
         "car_mark_id",
-        "detail_id",
+        "description",
     ];
     public function carMark()
     {
-        return $this->hasOne(CarMark::class, "id", "car_mark_id");
+        return $this->belongsTo(CarMark::class, "car_mark_id","id");
     }
 
-    public function detail()
-    {
-        return $this->hasOne(Detail::class);
-    }
+
 }

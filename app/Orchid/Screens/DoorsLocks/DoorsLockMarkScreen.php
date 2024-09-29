@@ -1,34 +1,31 @@
 <?php
 
-namespace App\Orchid\Screens\Cars;
+namespace App\Orchid\Screens\DoorsLocks;
 
 use App\Models\CarMark;
-use App\Models\CarModel;
-use App\Orchid\Layouts\CarModelsListLayout;
+use App\Models\DoorsLockMark;
+use App\Orchid\Layouts\Cars\CarMarksListLayout;
+use App\Orchid\Layouts\DoorsLocks\DoorsLockMarksListLayout;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\SimpleMDE;
 use Orchid\Screen\Screen;
 use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
-class CarModelDetailScreen extends Screen
+class DoorsLockMarkScreen extends Screen
 {
-    private CarMark $carMark;
-
     /**
      * Fetch data to be displayed on the screen.
      *
      * @return array
      */
-    public function query(CarModel $carModel): iterable
+    public function query(): iterable
     {
-        $this->carModel = $carModel->load("carMark");
-
+        $this->doorsLockMark = DoorsLockMark::all();
         return [
-            'carModels' => $this->carModel
+            'doorsLockMark' => $this->doorsLockMark
         ];
     }
 
@@ -39,7 +36,7 @@ class CarModelDetailScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'Модель '.$this->carModel->carMark->name ." ".$this->carModel->name;
+        return 'Марки дверных замков';
     }
 
     /**
@@ -58,7 +55,12 @@ class CarModelDetailScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-
+            ModalToggle::make('Добавить')
+                ->modal('addDoorsLockMark')
+                ->modalTitle('Добавить марку')
+                ->method('addDoorsLockMark')
+                ->type(Color::DARK)
+                ->icon('full-screen'),
         ];
     }
 
@@ -70,9 +72,12 @@ class CarModelDetailScreen extends Screen
     public function layout(): iterable
     {
         return [
-            Layout::rows([
-                SimpleMDE::make('detail.description')->title("Описание")
-            ])
+            DoorsLockMarksListLayout::class,
+            Layout::modal('addDoorsLockMark', [
+                Layout::rows([
+                    Input::make("name")->title("Название")->type("text"),
+                ]),
+            ]),
         ];
     }
 
@@ -84,17 +89,16 @@ class CarModelDetailScreen extends Screen
         Toast::warning('Click Processing');
     }
 
-    public function addCarMark(Request $request): void
+    public function addDoorsLockMark(Request $request): void
     {
         $data = $request->all();
         if(isset($data['name'])){
-            if(CarMark::where('name', $data['name'])->exists()){
+            if(DoorsLockMark::where('name', mb_strtoupper(trim($data['name'])))->exists()){
                 Toast::error('Такая марка уже существует');
                 return;
             } else {
-                CarMark::create([
-                    'name' => $data['name'],
-                    'category_id' => 1,
+                DoorsLockMark::create([
+                    'name' => mb_strtoupper(trim($data['name'])),
                 ]);
             }
         }

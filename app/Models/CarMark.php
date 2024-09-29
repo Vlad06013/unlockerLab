@@ -12,10 +12,5 @@ class CarMark extends Model
     use HasFactory, AsSource, Filterable;
     protected $fillable = [
         "name",
-        "category_id"
     ];
-    public function category()
-    {
-        return $this->hasOne(Category::class, "id", "category_id");
-    }
 }

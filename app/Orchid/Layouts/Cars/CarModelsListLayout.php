@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Orchid\Layouts;
+namespace App\Orchid\Layouts\Cars;
 
-use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -29,9 +29,15 @@ class CarModelsListLayout extends Table
             TD::make('name','Модель')
                 ->align('center')
                 ->width('100px')
-                ->render(function ($carModels) {
-                    return Link::make($carModels->name)
-                        ->route('platform.carmodel.detail', ["carModel" => $carModels->id]);
+                ->render(function ($carModel) {
+                    return ModalToggle::make($carModel->name)
+                        ->modal('editCarModel')
+                        ->modalTitle('Редактирование '.$carModel->name)
+                        ->method('editCarModel')
+                        ->asyncParameters([
+                            'carMark' => $carModel->car_mark_id,
+                            'carModel' => $carModel->id,
+                        ]);
                 }),
         ];
     }

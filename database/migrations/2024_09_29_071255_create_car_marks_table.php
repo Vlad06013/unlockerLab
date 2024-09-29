@@ -14,12 +14,6 @@ return new class extends Migration
         Schema::create('car_marks', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->unsignedInteger('category_id')->nullable();
-            $table->foreign('category_id')
-                ->references('id')
-                ->on('categories')
-                ->onUpdate('cascade')
-                ->nullOnDelete();
             $table->timestamps();
         });
     }

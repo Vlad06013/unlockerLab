@@ -4,10 +4,11 @@ namespace App\Orchid\Screens\Cars;
 
 use App\Models\CarMark;
 use App\Models\CarModel;
-use App\Orchid\Layouts\CarModelsListLayout;
+use App\Orchid\Layouts\Cars\CarModelsListLayout;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\SimpleMDE;
 use Orchid\Screen\Screen;
 use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
@@ -15,7 +16,6 @@ use Orchid\Support\Facades\Toast;
 
 class CarModelScreen extends Screen
 {
-    private CarMark $carMark;
 
     /**
      * Fetch data to be displayed on the screen.
@@ -25,7 +25,6 @@ class CarModelScreen extends Screen
     public function query(CarMark $carMark): iterable
     {
         $this->carMark = $carMark;
-
         $this->carModels = CarModel::where("car_mark_id", $carMark->id)->get();
         return [
             'carModels' => $this->carModels
@@ -39,7 +38,7 @@ class CarModelScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'Модели автомобилей '.$this->carMark->name;
+        return 'Модели автомобилей '.isset($this->carMark)? $this->carMark->name : null;
     }
 
     /**
@@ -60,8 +59,9 @@ class CarModelScreen extends Screen
         return [
             ModalToggle::make('Добавить')
                 ->modal('addCarMark')
-                ->modalTitle('Добавить марку')
+                ->modalTitle('Добавить модель')
                 ->method('addCarMark')
+                ->parameters(["carMark"=>$this->carMark->id])
                 ->type(Color::DARK)
                 ->icon('full-screen'),
         ];
@@ -79,11 +79,25 @@ class CarModelScreen extends Screen
             Layout::modal('addCarMark', [
                 Layout::rows([
                     Input::make("name")->title("Название")->type("text"),
+                    SimpleMDE::make("description")->title("Описание"),
                 ]),
             ]),
+            Layout::modal('editCarModel', [
+                Layout::rows([
+                    Input::make("name")->title("Название")->type("text"),
+                    SimpleMDE::make("description")->title("Описание"),
+                ]),
+            ])->async('asyncGetCarModel'),
         ];
     }
 
+    public function asyncGetCarModel(CarMark $carMark, CarModel $carModel): array{
+        $this->carMark = $carMark;
+        return [
+            'name' => $carModel->name,
+            'description' => $carModel->description,
+        ];
+    }
     /**
      * @return void
      */
@@ -96,17 +110,26 @@ class CarModelScreen extends Screen
     {
         $data = $request->all();
         if(isset($data['name'])){
-            if(CarMark::where('name', $data['name'])->exists()){
+            if(CarModel::where('name', mb_strtoupper(trim($data['name'])))->exists()){
                 Toast::error('Такая марка уже существует');
                 return;
             } else {
-                CarMark::create([
-                    'name' => $data['name'],
-                    'category_id' => 1,
+                CarModel::create([
+                    'name' => mb_strtoupper(trim($data['name'])),
+                    'description' => isset($data['description'])? $data['description'] : null,
+                    'car_mark_id' => $data['carMark'],
                 ]);
             }
         }
 
+//        Toast::success('Добавлена марка '.$data['name']);
+    }
+    public function editCarModel(Request $request, CarModel $carModel): void
+    {
+        $data = $request->all();
+        $carModel->name = mb_strtoupper(trim($data['name']));
+        $carModel->description = isset($data['description']) ? $data['description'] : '';
+        $carModel->save();
         Toast::success('Добавлена марка '.$data['name']);
     }
 }

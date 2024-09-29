@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('car_models', function (Blueprint $table) {
+        Schema::create('doors_lock_models', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->unsignedInteger('car_mark_id')->nullable();
-            $table->foreign('car_mark_id')
+            $table->unsignedInteger('doors_lock_mark_id')->nullable();
+            $table->foreign('doors_lock_mark_id')
                 ->references('id')
-                ->on('car_marks')
+                ->on('doors_lock_marks')
                 ->onUpdate('cascade')
                 ->nullOnDelete();
             $table->mediumText('description')->nullable();
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('car_models');
+        Schema::dropIfExists('doors_lock_models');
     }
 };

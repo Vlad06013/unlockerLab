@@ -3,14 +3,9 @@
 namespace App\Orchid\Screens\Cars;
 
 use App\Models\CarMark;
-use App\Orchid\Layouts\CarMarksListLayout;
-use App\Orchid\Layouts\Examples\ExampleElements;
+use App\Orchid\Layouts\Cars\CarMarksListLayout;
 use Illuminate\Http\Request;
-use Orchid\Screen\Actions\Button;
-use Orchid\Screen\Actions\DropDown;
-use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
-use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Screen;
 use Orchid\Support\Color;
@@ -81,17 +76,6 @@ class CarMarkScreen extends Screen
                     Input::make("name")->title("Название")->type("text"),
                 ]),
             ]),
-//            Layout::rows([
-//                Group::make([
-//                    Button::make('Primary')->method('buttonClickProcessing')->type(Color::PRIMARY),
-//                ])->autoWidth(),
-//
-//                Group::make([
-//                    Link::make('Basic Link')->href('#'),
-//                    Link::make('Open new window')->href('#')->target('_blank'),
-//                    Link::make('Download File')->href('#')->download(),
-//                ])->autoWidth(),
-//            ]),
         ];
     }
 
@@ -107,13 +91,12 @@ class CarMarkScreen extends Screen
     {
         $data = $request->all();
         if(isset($data['name'])){
-            if(CarMark::where('name', $data['name'])->exists()){
+            if(CarMark::where('name', mb_strtoupper(trim($data['name'])))->exists()){
                 Toast::error('Такая марка уже существует');
                 return;
             } else {
                 CarMark::create([
-                    'name' => $data['name'],
-                    'category_id' => 1,
+                    'name' => mb_strtoupper(trim($data['name'])),
                 ]);
             }
         }
