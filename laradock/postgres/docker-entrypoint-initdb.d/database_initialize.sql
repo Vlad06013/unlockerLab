@@ -1,4 +1,4 @@
-CREATE USER smm_planer WITH PASSWORD 'eRdHs3gFsa3gt!n';
-CREATE DATABASE smm_planer;
-GRANT ALL PRIVILEGES ON DATABASE smm_planer TO smm_planer;
-ALTER DATABASE smm_planer OWNER TO smm_planer;
+CREATE USER ulocker_lab WITH PASSWORD 'eRdHs3gFsa3gt!n';
+CREATE DATABASE ulocker_lab;
+GRANT ALL PRIVILEGES ON DATABASE ulocker_lab TO ulocker_lab;
+ALTER DATABASE ulocker_lab OWNER TO ulocker_lab;
