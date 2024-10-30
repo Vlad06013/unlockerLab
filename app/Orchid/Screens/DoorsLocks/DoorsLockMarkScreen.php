@@ -92,17 +92,18 @@ class DoorsLockMarkScreen extends Screen
     public function addDoorsLockMark(Request $request): void
     {
         $data = $request->all();
-        if(isset($data['name'])){
-            if(DoorsLockMark::where('name', mb_strtoupper(trim($data['name'])))->exists()){
+        if (isset($data['name'])) {
+            if (DoorsLockMark::where('name', mb_strtoupper(trim($data['name'])))->exists()) {
                 Toast::error('Такая марка уже существует');
                 return;
             } else {
-                DoorsLockMark::create([
+                $doorsLockMark = DoorsLockMark::create([
                     'name' => mb_strtoupper(trim($data['name'])),
                 ]);
+                $doorsLockMark->makeButtonListFromItems("Марки дверных замков", null, "name", "id");
             }
         }
 
-        Toast::success('Добавлена марка '.$data['name']);
+        Toast::success('Добавлена марка ' . $data['name']);
     }
 }

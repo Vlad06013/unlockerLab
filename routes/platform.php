@@ -18,6 +18,7 @@ use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
+use App\Orchid\Screens\TelegramConstruct\Bot\BotsScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
@@ -112,5 +113,6 @@ Route::screen('/cars/{carMark}/model/list', CarModelScreen::class)->name('platfo
 //DOORS_LOCKS
 Route::screen('/doors-lock/mark', DoorsLockMarkScreen::class)->name('platform.doorslock.list');
 Route::screen('/doors-lock/{doorsLockMark}/model/list', DoorsLockModelScreen::class)->name('platform.doorsLockModel.list');
+Route::screen('/admin/bot/list', BotsScreen::class)->name('platform.telegram.bot.list');
 
 //Route::screen('idea', Idea::class, 'platform.screens.idea');

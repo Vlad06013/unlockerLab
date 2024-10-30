@@ -2,10 +2,13 @@
 
 namespace App\Orchid\Resources;
 
+use App\Models\Category;
+use Illuminate\Http\Request;
 use Orchid\Crud\Resource;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Select;
 use Orchid\Screen\TD;
+use Valibool\TelegramConstruct\Models\Message;
+use Valibool\TelegramConstruct\Models\Relation\TgMessagable;
 
 class CategoryResource extends Resource
 {
@@ -24,7 +27,6 @@ class CategoryResource extends Resource
     public function fields(): array
     {
         return [
-            Select::make("subcategory_id")->title("Подраздел")->fromModel(self::$model, "name")->empty(),
             Input::make("name")->title("Название")->type("text"),
         ];
     }
@@ -38,12 +40,6 @@ class CategoryResource extends Resource
     {
         return [
             TD::make('name', 'Название'),
-            TD::make('subcategory_id', 'Родительский раздел')
-                ->render(function ($model) {
-                    if($model->subcategory) {
-                        return $model->subcategory->name;
-                    }
-                }),
         ];
     }
 
@@ -66,4 +62,14 @@ class CategoryResource extends Resource
     {
         return [];
     }
+
+    public function onSave(Request $request, Category $model) {
+        $data = $request->all();
+        $model->forceFill($data)->save();
+
+        $model->makeItemAsButton(
+            "Категории", null, "name", "id"
+        );
+    }
+
 }

@@ -81,6 +81,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->divider(),
             Menu::make('Автомобили')->icon('ev-front-fill')->sort(0)->route('platform.carmark.list'),
             Menu::make('Дверные замки')->icon('ev-front-fill')->sort(0)->route('platform.doorslock.list'),
+            Menu::make('Боты')->icon('ev-front-fill')->sort(0)->route('platform.telegram.bot.list'),
 
 
 

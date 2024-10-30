@@ -81,14 +81,14 @@ class DoorsLockModelScreen extends Screen
                 Layout::rows([
                     Input::make("name")->title("Название")->type("text"),
                     SimpleMDE::make("description")->title("Описание"),
-                    Upload::make("attachments")->title("Вложения")
+                    Upload::make("attachment")->title("Вложения")
                 ]),
             ]),
             Layout::modal('editDoorsLockModel', [
                 Layout::rows([
                     Input::make("name")->title("Название")->type("text"),
                     SimpleMDE::make("description")->title("Описание"),
-                    Upload::make("attachments")->title("Вложения")
+                    Upload::make("attachment")->title("Вложения")
 
                 ]),
             ])->async('asyncGetCarModel'),
@@ -101,7 +101,7 @@ class DoorsLockModelScreen extends Screen
         return [
             'name' => $doorsLockModel->name,
             'description' => $doorsLockModel->description,
-            'attachments' => $doorsLockModel->attachments,
+            'attachment' => $doorsLockModel->attachment,
         ];
     }
 
@@ -126,10 +126,13 @@ class DoorsLockModelScreen extends Screen
                     'description' => isset($data['description']) ? $data['description'] : null,
                     'doors_lock_mark_id' => $data['doorsLockMark'],
                 ]);
-                if (isset($data['attachments'])) {
-                    $doorLock->attachments()->sync($data['attachments']);
+
+                $doorLock->makeButtonListFromItems("Модели дверных замков", null, "name", "id");
+
+                if (isset($data['attachment'])) {
+                    $doorLock->attachment()->sync($data['attachment']);
                 } else {
-                    $doorLock->attachments()->sync([]);
+                    $doorLock->attachment()->sync([]);
                 }
             }
         }
@@ -140,10 +143,10 @@ class DoorsLockModelScreen extends Screen
     public function editDoorsLockModel(Request $request, DoorsLockModel $doorsLockModel): void
     {
         $data = $request->all();
-        if (isset($data['attachments'])) {
-            $doorsLockModel->attachments()->sync($data['attachments']);
+        if (isset($data['attachment'])) {
+            $doorsLockModel->attachment()->sync($data['attachment']);
         } else {
-            $doorsLockModel->attachments()->sync([]);
+            $doorsLockModel->attachment()->sync([]);
         }
         $doorsLockModel->name = mb_strtoupper(trim($data['name']));
         $doorsLockModel->description = isset($data['description']) ? $data['description'] : '';

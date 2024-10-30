@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('doors_lock_marks', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('link_on_forum_topic')->nullable();
             $table->timestamps();
         });
     }

@@ -114,15 +114,16 @@ class CarModelScreen extends Screen
                 Toast::error('Такая марка уже существует');
                 return;
             } else {
-                CarModel::create([
+                $carModel = CarModel::create([
                     'name' => mb_strtoupper(trim($data['name'])),
                     'description' => isset($data['description'])? $data['description'] : null,
                     'car_mark_id' => $data['carMark'],
                 ]);
+                $carModel->makeButtonListFromItems("Модели автомобилей", null, "name", "id");
             }
         }
 
-//        Toast::success('Добавлена марка '.$data['name']);
+        Toast::success('Добавлена марка '.$data['name']);
     }
     public function editCarModel(Request $request, CarModel $carModel): void
     {

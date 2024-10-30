@@ -90,17 +90,18 @@ class CarMarkScreen extends Screen
     public function addCarMark(Request $request): void
     {
         $data = $request->all();
-        if(isset($data['name'])){
-            if(CarMark::where('name', mb_strtoupper(trim($data['name'])))->exists()){
+        if (isset($data['name'])) {
+            if (CarMark::where('name', mb_strtoupper(trim($data['name'])))->exists()) {
                 Toast::error('Такая марка уже существует');
                 return;
             } else {
-                CarMark::create([
+                $carMark = CarMark::create([
                     'name' => mb_strtoupper(trim($data['name'])),
                 ]);
+                $carMark->makeButtonListFromItems("Марки автомобилей",null, "name", "id");
             }
         }
 
-        Toast::success('Добавлена марка '.$data['name']);
+        Toast::success('Добавлена марка ' . $data['name']);
     }
 }

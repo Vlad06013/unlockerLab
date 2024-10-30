@@ -11,7 +11,8 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "orchid/crud": "^4.3",
-        "orchid/platform": "^14.36"
+        "orchid/platform": "^14.36",
+        "valibool/telegram-construct": "dev-main"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -63,6 +64,7 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [ { "type" : "path", "url" : "packages/telegram-construct" } ]
 }
