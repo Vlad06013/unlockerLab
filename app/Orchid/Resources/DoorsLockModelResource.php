@@ -15,6 +15,7 @@ use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\SimpleMDE;
 use Orchid\Screen\Fields\Upload;
+use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
 
 class DoorsLockModelResource extends Resource
@@ -68,17 +69,8 @@ class DoorsLockModelResource extends Resource
                 Relation::make('lock_mech_secret_type_id')
                     ->fromModel(LockMechSecretType::class, 'name')
                     ->title('Тип механизма секретности'),
-                Select::make('secret_type')->options([
-                    'A' => 'A',
-                    'B' => 'B',
-                ])->title("Тип секретности"),
-                Select::make('resistance_class')->options([
-                    '1' => '1',
-                    '2' => '2',
-                    '3' => '3',
-                    '4' => '4',
-
-                ])->title("Класс Взломостойкости"),
+                Select::make('secret_type')->options(self::$model::$secretTypes)->title("Тип секретности")->empty(),
+                Select::make('resistance_class')->options(self::$model::$resistanceClass)->title("Класс Взломостойкости"),
             ]),
 
             Group::make([
@@ -105,20 +97,9 @@ class DoorsLockModelResource extends Resource
                 Input::make("case_depth")->title("Глубина корпуса замка - мм"),
                 Input::make("width_depth")->title("Ширина корпуса замка - мм"),
             ]),
-            Select::make('key_type')->options([
-                'Сувальдный' => 'Сувальдный',
-                'Крестовый' => 'Крестовый',
-                'Английский' => 'Английский',
-                'Финский' => 'Финский',
-                'Реечный' => 'Реечный',
-                'Помповый' => 'Помповый',
-            ])->title("Тип ключа"),
+            Select::make('key_type')->options(self::$model::$keyTypes)->title("Тип ключа")->empty(),
 
-            Select::make('locking_from_inside')->options([
-                'Ключом' => 'Ключом',
-                'Ручкой' => 'Ручкой',
-                'Нету' => 'Нету',
-            ])->title("Запирание изнутри")->empty(),
+            Select::make('locking_from_inside')->options(self::$model::$lockingFromInside)->title("Запирание изнутри")->empty(),
             Upload::make('attachment')->title('Изображения')
         ];
     }
@@ -145,7 +126,43 @@ class DoorsLockModelResource extends Resource
      */
     public function legend(): array
     {
-        return [];
+        return [
+            Sight::make("doors_lock_mark_id",'Производитель')->render(fn (DoorsLockModel $model) => $model->mark->name),
+            Sight::make("name",'Название'),
+            Sight::make("description","Описание"),
+            Sight::make("lock_type_id",'Тип замка')->render(fn (DoorsLockModel $model) => $model->lockType?$model->lockType->name:'-'),
+            Sight::make("lock_mech_secret_type_id",'Тип механизма секретности')->render(fn (DoorsLockModel $model) => $model->lockMechSecretType?$model->lockType->name:'-'),
+            Sight::make("secret_type",'Тип секретности'),
+            Sight::make("resistance_class",'Класс Взломостойкости'),
+            Sight::make("tail_latch",'Фалевая защелка')->render(fn (DoorsLockModel $model) => $model->tail_latch?"Да":"Нет"),
+            Sight::make("latch_inside",'Защелка изнутри')->render(fn (DoorsLockModel $model) => $model->latch_inside?"Да":"Нет"),
+            Sight::make("rods",'Наличие тяг')->render(fn (DoorsLockModel $model) => $model->rods?"Да":"Нет"),
+            Sight::make("center_distance",'Межосевое расстояние - мм'),
+            Sight::make("backset",'Бэксет (удаление ключевого отверстия) - мм'),
+            Sight::make("end_strip_length",'Длина торцевой планки - мм'),
+            Sight::make("end_strip_width",'Ширина торцевой планки - мм'),
+            Sight::make("center_distance_fastenings",'Межосевое расстояние креплений замка - мм'),
+            Sight::make("crossbar_diameter",'Диаметр ригеля(Высота если квадратный) - мм'),
+            Sight::make("deadbolt_overhang",'Вылет ригеля - мм'),
+            Sight::make("overhang_count",'Кол-во ригелей'),
+            Sight::make("body_height",'Высота корпуса замка - мм'),
+            Sight::make("case_depth",'Глубина корпуса замка - мм'),
+            Sight::make("width_depth",'Ширина корпуса замка - мм'),
+            Sight::make("key_type",'Тип ключа'),
+            Sight::make("locking_from_inside",'Запирание изнутри'),
+            Sight::make("attachment",'Изображения')->render(function (DoorsLockModel $model){
+                $res = '';
+                if ($model->attachment) {
+                    foreach ($model->attachment as $attachment) {
+                        $res = $res . '<a href="' . $attachment->url . '" target="_blank"><img height="200" width="250" src = "' . $attachment->url . '"></a>';
+//                        $res = $res . '<img height="150" width="150" src = "' . $attachment->url . '">';
+                    }
+                }
+                return $res;
+            }),
+
+
+        ];
     }
 
     /**

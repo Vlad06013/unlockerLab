@@ -12,6 +12,7 @@ use Valibool\TelegramConstruct\Models\Relation\Messagable;
 class DoorsLockModel extends Model
 {
     use HasFactory, AsSource, Filterable, Messagable, Attachable;
+
     protected $fillable = [
         "name",
         "doors_lock_mark_id",
@@ -37,12 +38,37 @@ class DoorsLockModel extends Model
         "locking_from_inside",
         "key_type",
     ];
+
+    public static array $secretTypes = [
+        "A" => "A",
+        "B" => "B",
+    ];
+    public static array $resistanceClass = [
+        '1' => '1',
+        '2' => '2',
+        '3' => '3',
+        '4' => '4',
+    ];
+    public static array $keyTypes = [
+        'Сувальдный' => 'Сувальдный',
+        'Крестовый' => 'Крестовый',
+        'Английский' => 'Английский',
+        'Финский' => 'Финский',
+        'Реечный' => 'Реечный',
+        'Помповый' => 'Помповый',
+    ];
+    public static array $lockingFromInside = [
+        'Ключом' => 'Ключом',
+        'Ручкой' => 'Ручкой',
+        'Нету' => 'Нету',
+    ];
     public function mark()
     {
-        return $this->belongsTo(DoorsLockMark::class, "doors_lock_mark_id","id");
+        return $this->belongsTo(DoorsLockMark::class, "doors_lock_mark_id", "id");
     }
 
-    public function inputQueryFilter():string|null {
+    public function inputQueryFilter(): string|null
+    {
         return "doors_lock_mark_id";
     }
 
@@ -50,6 +76,7 @@ class DoorsLockModel extends Model
     {
         return $this->belongsTo(LockType::class);
     }
+
     public function lockMechSecretType()
     {
         return $this->belongsTo(LockMechSecretType::class);
