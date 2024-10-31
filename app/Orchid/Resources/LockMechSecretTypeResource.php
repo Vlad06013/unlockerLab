@@ -24,7 +24,6 @@ class LockMechSecretTypeResource extends Resource
     {
         return [
             Input::make("name")->title("Название")->type("text"),
-
         ];
     }
 
