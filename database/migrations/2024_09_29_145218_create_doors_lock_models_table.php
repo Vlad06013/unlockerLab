@@ -48,7 +48,7 @@ return new class extends Migration
             $table->string('body_height')->nullable();
             $table->string('case_depth')->nullable();
             $table->string('width_depth')->nullable();
-            $table->string('locking_from_inside')->default('none');
+            $table->string('locking_from_inside')->nullable();
             $table->string('key_type')->nullable();
             $table->mediumText('description')->nullable();
 
