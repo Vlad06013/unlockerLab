@@ -27,8 +27,6 @@ class DoorsLockModelsListLayout extends Table
     {
         return [
             TD::make('name','Модель')
-                ->align('center')
-                ->width('100px')
                 ->render(function ($doorsLockModel) {
                     return ModalToggle::make($doorsLockModel->name)
                         ->modal('editDoorsLockModel')
@@ -39,6 +37,7 @@ class DoorsLockModelsListLayout extends Table
                             'doorsLockModel' => $doorsLockModel->id,
                         ]);
                 }),
+            TD::make('description','Описание')
         ];
     }
 }

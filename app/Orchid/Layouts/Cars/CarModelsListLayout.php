@@ -27,8 +27,8 @@ class CarModelsListLayout extends Table
     {
         return [
             TD::make('name','Модель')
-                ->align('center')
-                ->width('100px')
+//                ->align('center')
+//                ->width('100px')
                 ->render(function ($carModel) {
                     return ModalToggle::make($carModel->name)
                         ->modal('editCarModel')
@@ -39,6 +39,7 @@ class CarModelsListLayout extends Table
                             'carModel' => $carModel->id,
                         ]);
                 }),
+            TD::make('description','Описание')
         ];
     }
 }
