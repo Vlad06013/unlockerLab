@@ -87,23 +87,23 @@ class DoorsLockModelResource extends Resource
                 CheckBox::make("rods")->title("Наличие тяг")->sendTrueOrFalse(),
             ]),
             Group::make([
-                Input::make("center_distance")->title("Межосевое расстояние - мм")->type("number"),
-                Input::make("backset")->title("Бэксет (удаление ключевого отверстия) - мм")->type("number"),
-                Input::make("end_strip_length")->title("Длина торцевой планки - мм")->type("number"),
-                Input::make("end_strip_width")->title("Ширина торцевой планки - мм")->type("number"),
+                Input::make("center_distance")->title("Межосевое расстояние - мм"),
+                Input::make("backset")->title("Бэксет (удаление ключевого отверстия) - мм"),
+                Input::make("end_strip_length")->title("Длина торцевой планки - мм"),
+                Input::make("end_strip_width")->title("Ширина торцевой планки - мм"),
             ]),
             Group::make([
 
-                Input::make("center_distance_fastenings")->title("Межосевое расстояние креплений замка - мм")->type("number"),
-                Input::make("crossbar_diameter")->title("Диаметр ригеля(Высота если квадратный) - мм")->type("number"),
-                Input::make("deadbolt_overhang")->title("Вылет ригеля - мм")->type("number"),
+                Input::make("center_distance_fastenings")->title("Межосевое расстояние креплений замка - мм"),
+                Input::make("crossbar_diameter")->title("Диаметр ригеля(Высота если квадратный) - мм"),
+                Input::make("deadbolt_overhang")->title("Вылет ригеля - мм"),
                 Input::make("overhang_count")->title("Кол-во ригелей")->type("number")->value(1),
             ]),
             Group::make([
 
-                Input::make("body_height")->title("Высота корпуса замка - мм")->type("number"),
-                Input::make("case_depth")->title("Глубина корпуса замка - мм")->type("number"),
-                Input::make("width_depth")->title("Ширина корпуса замка - мм")->type("number"),
+                Input::make("body_height")->title("Высота корпуса замка - мм"),
+                Input::make("case_depth")->title("Глубина корпуса замка - мм"),
+                Input::make("width_depth")->title("Ширина корпуса замка - мм"),
             ]),
             Select::make('key_type')->options([
                 'Сувальдный' => 'Сувальдный',
