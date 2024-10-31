@@ -107,12 +107,12 @@ Route::screen('/examples/charts', ExampleChartsScreen::class)->name('platform.ex
 Route::screen('/examples/cards', ExampleCardsScreen::class)->name('platform.example.cards');
 
 //CARS
-Route::screen('/cars/mark', CarMarkScreen::class)->name('platform.carmark.list');
-Route::screen('/cars/{carMark}/model/list', CarModelScreen::class)->name('platform.carmodel.list');
+//Route::screen('/cars/mark', CarMarkScreen::class)->name('platform.carmark.list');
+//Route::screen('/cars/{carMark}/model/list', CarModelScreen::class)->name('platform.carmodel.list');
 
 //DOORS_LOCKS
-Route::screen('/doors-lock/mark', DoorsLockMarkScreen::class)->name('platform.doorslock.list');
-Route::screen('/doors-lock/{doorsLockMark}/model/list', DoorsLockModelScreen::class)->name('platform.doorsLockModel.list');
+//Route::screen('/doors-lock/mark', DoorsLockMarkScreen::class)->name('platform.doorslock.list');
+//Route::screen('/doors-lock/{doorsLockMark}/model/list', DoorsLockModelScreen::class)->name('platform.doorsLockModel.list');
 Route::screen('/admin/bot/list', BotsScreen::class)->name('platform.telegram.bot.list');
 
 //Route::screen('idea', Idea::class, 'platform.screens.idea');

@@ -64,6 +64,14 @@ class CarModelScreen extends Screen
                 ->parameters(["carMark"=>$this->carMark->id])
                 ->type(Color::DARK)
                 ->icon('full-screen'),
+
+            ModalToggle::make('Удалить марку авто')
+                ->modal('deleteCarMark')
+                ->modalTitle('Добавить модель')
+                ->method('addCarMark')
+                ->parameters(["carMark"=>$this->carMark->id])
+                ->type(Color::DARK)
+                ->icon('full-screen'),
         ];
     }
 
@@ -81,6 +89,9 @@ class CarModelScreen extends Screen
                     Input::make("name")->title("Название")->type("text"),
                     SimpleMDE::make("description")->title("Описание"),
                 ]),
+            ]),
+            Layout::modal('deleteCarMark', [
+
             ]),
             Layout::modal('editCarModel', [
                 Layout::rows([
@@ -109,6 +120,26 @@ class CarModelScreen extends Screen
     public function addCarMark(Request $request): void
     {
         $data = $request->all();
+        if(isset($data['name'])){
+            if(CarModel::where('name', mb_strtoupper(trim($data['name'])))->exists()){
+                Toast::error('Такая марка уже существует');
+                return;
+            } else {
+                $carModel = CarModel::create([
+                    'name' => mb_strtoupper(trim($data['name'])),
+                    'description' => isset($data['description'])? $data['description'] : null,
+                    'car_mark_id' => $data['carMark'],
+                ]);
+                $carModel->makeButtonListFromItems("Модели автомобилей", null, "name", "id");
+            }
+        }
+
+        Toast::success('Добавлена марка '.$data['name']);
+    }
+    public function deleteCarMark(Request $request): void
+    {
+        $data = $request->all();
+        dd($data);
         if(isset($data['name'])){
             if(CarModel::where('name', mb_strtoupper(trim($data['name'])))->exists()){
                 Toast::error('Такая марка уже существует');

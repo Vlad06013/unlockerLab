@@ -17,8 +17,25 @@ return new class extends Migration
             $table->string('link_on_forum_topic')->nullable();
             $table->timestamps();
         });
-    }
 
+        $this->add();
+    }
+    public function add()
+    {
+        $types = [
+            'Гардиан',
+            'Бордер',
+            'Эльбор',
+            'Просам',
+            'Kale Kilit',
+            'Cisa',
+            'Mottura',
+            'Mul-T-Lock',
+        ];
+        foreach ($types as $type) {
+            \App\Models\DoorsLockMark::create(['name' => $type]);
+        }
+    }
     /**
      * Reverse the migrations.
      */

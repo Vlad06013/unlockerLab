@@ -26,6 +26,8 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });
+        $this->createAdmin();
+
     }
 
     /**
@@ -34,5 +36,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('role_users');
+    }
+    protected function createAdmin()
+    {
+        Artisan::call('orchid:admin admin admin@admin.com password');
     }
 };

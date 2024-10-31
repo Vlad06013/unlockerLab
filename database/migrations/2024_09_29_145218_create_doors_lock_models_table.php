@@ -20,7 +20,38 @@ return new class extends Migration
                 ->on('doors_lock_marks')
                 ->onUpdate('cascade')
                 ->nullOnDelete();
+            $table->unsignedInteger('lock_type_id')->nullable();
+            $table->foreign('lock_type_id')
+                ->references('id')
+                ->on('lock_types')
+                ->onUpdate('cascade')
+                ->nullOnDelete();
+            $table->unsignedInteger('lock_mech_secret_type_id')->nullable();
+            $table->foreign('lock_mech_secret_type_id')
+                ->references('id')
+                ->on('lock_mech_secret_types')
+                ->onUpdate('cascade')
+                ->nullOnDelete();
+            $table->unsignedInteger('secret_type')->nullable();
+            $table->string('resistance_class')->nullable();
+            $table->boolean('tail_latch')->default(false);
+            $table->boolean('latch_inside')->default(false);
+            $table->boolean('rods')->default(false);
+            $table->string('center_distance')->nullable();
+            $table->string('backset')->nullable();
+            $table->string('end_strip_length')->nullable();
+            $table->string('end_strip_width')->nullable();
+            $table->string('center_distance_fastenings')->nullable();
+            $table->string('crossbar_diameter')->nullable();
+            $table->string('deadbolt_overhang')->nullable();
+            $table->unsignedInteger('overhang_count')->default(1);
+            $table->string('body_height')->nullable();
+            $table->string('case_depth')->nullable();
+            $table->string('width_depth')->nullable();
+            $table->string('locking_from_inside')->default('none');
+            $table->string('key_type')->nullable();
             $table->mediumText('description')->nullable();
+
             $table->timestamps();
         });
     }
