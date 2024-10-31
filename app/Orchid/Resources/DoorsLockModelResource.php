@@ -103,7 +103,7 @@ class DoorsLockModelResource extends Resource
                 'Ключом' => 'Ключом',
                 'Ручкой' => 'Ручкой',
                 'Нету' => 'Нету',
-            ])->title("Тип ключа"),
+            ])->title("Запирание изнутри"),
             Upload::make('attachment')->title('Изображения')
         ];
     }
