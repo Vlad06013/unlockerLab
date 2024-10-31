@@ -30,6 +30,14 @@ class DoorsLockModelResource extends Resource
     {
         return "Модели дверных замков";
     }
+    public static function createBreadcrumbsMessage(): string
+    {
+        return "Создание";
+    }
+    public static function createButtonLabel(): string
+    {
+        return "Создать";
+    }
 
     public static function displayInNavigation(): bool
     {
