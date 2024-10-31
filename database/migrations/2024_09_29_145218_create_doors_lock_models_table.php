@@ -32,8 +32,8 @@ return new class extends Migration
                 ->on('lock_mech_secret_types')
                 ->onUpdate('cascade')
                 ->nullOnDelete();
-            $table->unsignedInteger('secret_type')->nullable();
-            $table->string('resistance_class')->nullable();
+            $table->string('secret_type')->nullable();
+            $table->unsignedInteger('resistance_class')->nullable();
             $table->boolean('tail_latch')->default(false);
             $table->boolean('latch_inside')->default(false);
             $table->boolean('rods')->default(false);

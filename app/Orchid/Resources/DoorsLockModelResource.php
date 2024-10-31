@@ -69,14 +69,15 @@ class DoorsLockModelResource extends Resource
                     ->fromModel(LockMechSecretType::class, 'name')
                     ->title('Тип механизма секретности'),
                 Select::make('secret_type')->options([
+                    'A' => 'A',
+                    'B' => 'B',
+                ])->title("Тип секретности"),
+                Select::make('resistance_class')->options([
                     '1' => '1',
                     '2' => '2',
                     '3' => '3',
                     '4' => '4',
-                ])->title("Тип секретности"),
-                Select::make('resistance_class')->options([
-                    'A' => 'A',
-                    'B' => 'B',
+
                 ])->title("Класс Взломостойкости"),
             ]),
 
@@ -96,7 +97,7 @@ class DoorsLockModelResource extends Resource
                 Input::make("center_distance_fastenings")->title("Межосевое расстояние креплений замка - мм")->type("number"),
                 Input::make("crossbar_diameter")->title("Диаметр ригеля(Высота если квадратный) - мм")->type("number"),
                 Input::make("deadbolt_overhang")->title("Вылет ригеля - мм")->type("number"),
-                Input::make("overhang_count")->title("Кол-во ригелей")->type("number"),
+                Input::make("overhang_count")->title("Кол-во ригелей")->type("number")->value(1),
             ]),
             Group::make([
 
